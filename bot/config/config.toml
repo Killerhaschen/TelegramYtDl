@@ -1,0 +1,34 @@
+[general]
+# Sets the log level for stdout
+logging = "INFO"
+logfile = "bot.log"
+
+[bot]
+# No API token It will be set over sytem ENV
+token = "TOKEN"
+#token = "TOKEN"
+# The markup you wish to use https://core.telegram.org/bots/api#formatting-options
+markup = "HTML"
+#markup = "Markdown"
+# The timeout for the users session to be discarded
+timeout = 31536000
+# Extract emojis from stickers to process them as text
+extract_emojis = true
+# Use the language sheets
+language_feature = true
+# Shall the program ignore small errors or let them terminate the application
+strict_mode = false
+# Let the bot mark the message he is answering to
+mark_as_answer = false
+# Default answer if an error occurs
+error_reply = "error"
+#
+disable_web_preview = true
+#
+disable_notification = false
+#command to cancel a conversation
+cancel_command = "/cancel"
+
+[query]
+# Replaces the answered queries
+replace_queries = true

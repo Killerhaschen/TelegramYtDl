@@ -1,0 +1,14 @@
+[default]
+greeting = "Hello, dear Newbie\nTo get access to this Bot your ID has to be registered.\nYour ID is: {}"
+Test = "Test back"
+unknown = "{}\nHÄÄÄÄ?"
+error = "An error occured."
+reject = "Du bist leider nicht angemeldet."
+noPermission = "Du hast nicht die notwendigen Administrator Rechte."
+formatChoice = "Welches format willst du?"
+
+
+[de]
+greeting = "Hallo, liebe/r Neuling\nUm hier zugang zu bekommen muss deine Telegram ID eingetragen werden.\nDeine ID ist: {}"
+error = "Ein Fehler trat auf."
+unknown = "{} habe ich leider nicht verstanden."
