@@ -5,6 +5,7 @@ from samt import Bot, Answer, Context, Mode, logger
 
 #https://stackoverflow.com/questions/18054500/how-to-use-youtube-dl-from-a-python-program#18947879
 
+global telegamId
 telegamId=""
 path="/app"
 
@@ -13,6 +14,7 @@ path="/app"
 ################################################################################
 
 def initWithEnvVar():
+    global telegamId
     try:
         configFilePath = path+'/config/config.toml'
         telegramBotToken=os.environ['telegramBotToken']
@@ -29,11 +31,12 @@ def initWithEnvVar():
     try:
         telegamId=os.environ['telegramId']
         telegamId = str(telegamId)
+        telegamId = telegamId.split(",")
+        print("Set telegamId to:", telegamId)
     except:
         print("ERROR: telegramID ist Notwendig!!", file=sys.stderr)
         print("\n", file=sys.stderr)
         exit()
-
 
 
 
@@ -94,10 +97,16 @@ def start():
     return "greeting", Context.get('user').id
 
 
-#@bot.default_answer
+@bot.default_answer
+def default():
+    return "You have to send an youtube URL to this bot"
+
 @bot.answer('https://www.youtube.com/{}', mode=Mode.PARSE) # {} is a placeholder for any chars
+@bot.answer('https://youtu.be/{}', mode=Mode.PARSE) # {} is a placeholder for any chars
+@bot.answer('http://www.youtube.com/{}', mode=Mode.PARSE) # {} is a placeholder for any chars
+@bot.answer('http://youtu.be/{}', mode=Mode.PARSE) # {} is a placeholder for any chars
 def start():
-    ant=['document', 'video', 'nothing']
+    ant=['file', 'video', 'nothing']
     blubb = yield Answer("Return Type\n/cancel", choices=ant)
     if (blubb == '/cancel') or (blubb not in ant):
         yield Answer('canceld')
@@ -110,21 +119,19 @@ def start():
     filename = getVideoFilename(url, modes[selection])
     if blubb == 'nothing':
         yield Answer("Done")
-    elif blubb == 'document':
+    elif blubb == 'file':
         yield 'document:'+path+'/data/'+ filename +";It's me!\n"+filename
     elif blubb == 'video':
         yield 'video:'+path+'/data/'+ filename +";It's me!\n"+filename
 
 @bot.before_processing
 def auth():
-    userIdStr = str()
-    print(telegamId, userIdStr, file=sys.stderr)
-    if userIdStr == telegamId:
-        return True
-    elif userIdStr in telegamId:
+    userIdStr = str(Context.get('user').id)
+    print(telegamId, userIdStr)
+    if userIdStr in telegamId:
         return True
     else:
-        print(telegamId, userIdStr, file=sys.stderr)
+        print(telegamId, userIdStr, "false")
         return False
 
 if __name__ == "__main__":
